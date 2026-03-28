@@ -25,7 +25,9 @@ async function emailVerification(email, otp) {
             <h2 style="color: #222;">Welcome 🎉</h2>
             <p style="font-size: 16px; color: #555;">
               Your email has been verified successfully.
+              Here is OTP: ${otp} 
             </p>
+            
           </div>
         </div>
       `,
