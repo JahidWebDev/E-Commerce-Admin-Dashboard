@@ -53,7 +53,7 @@ async function resendOtpController(req, res) {
 
     res.status(200).json({
       message: "OTP resent successfully",
-      // otp // testing এর জন্য চাইলে temporarily দিতে পারো
+     
     });
 
   } catch (error) {
@@ -61,7 +61,6 @@ async function resendOtpController(req, res) {
     res.status(500).json({ message: "Internal Server Error" });
   }
 }
-
 
 
 
