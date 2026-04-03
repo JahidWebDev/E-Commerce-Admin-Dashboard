@@ -15,7 +15,7 @@ async function loginController(req, res) {
     }
 
     if (!emailValidation(email)) {
-      return res.status(400).json({ error: "Email is not valid" });
+      return res.status(400).json({ error: "Email is a not valid" });
     }
 
     const existingUser = await userSchema.findOne({ email });
