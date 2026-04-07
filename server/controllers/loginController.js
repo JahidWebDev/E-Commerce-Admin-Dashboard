@@ -15,7 +15,7 @@ async function loginController(req, res) {
     }
 
     if (!emailValidation(email)) {
-      return res.status(400).json({ error: "Email is a not valid" });
+      return res.status(400).json({ error: "Email is not valid" });
     }
 
     const existingUser = await userSchema.findOne({ email });
@@ -34,13 +34,18 @@ async function loginController(req, res) {
       return res.status(401).json({ error: "Invalid Password" });
     }
 
+//  req.session.isAuth = true;
+
+    
+    req.session.user = {
+      id: existingUser._id,
+      email: existingUser.email,
+      firstName: existingUser.name,
+    };
+
     return res.status(200).json({
       message: "Login successfully done",
-      user: {
-        id: existingUser._id,
-        email: existingUser.email,
-        name: existingUser.name,
-      },
+      user: req.session.user,
     });
 
   } catch (error) {
