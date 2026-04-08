@@ -1,10 +1,11 @@
 require("dotenv").config();
 
-const router = require("./Routes");
 const express = require("express");
-const dbConnection = require("./config/db");
 const session = require("express-session");
-const cors = require("cors");
+const MongoDBStore = require("connect-mongodb-session")(session);
+const dbConnection = require("./config/db");
+const router = require("./Routes");
+// const cors = require("cors"); 
 
 const app = express();
 const port = 3000;
@@ -12,19 +13,26 @@ const port = 3000;
 
 app.use(express.json());
 
-app.use(
-  cors({
-    origin: "http://localhost:5173", 
-    credentials: true,
-  })
-);
+const store = new MongoDBStore({ 
+  uri: process.env.DB_URL,
+  collection: "mySessions"
+})
+
+
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173", 
+//     credentials: true,
+//   })
+// );
 
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "my_secret_key_12345",
+    secret: "ecommerceapi",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
+    store: store,
     cookie: {
       secure: false,
       httpOnly: true,

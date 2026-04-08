@@ -34,24 +34,43 @@ async function loginController(req, res) {
       return res.status(401).json({ error: "Invalid Password" });
     }
 
-//  req.session.isAuth = true;
+    req.session.isAuth = true;
 
-    
-    req.session.user = {
-      id: existingUser._id,
-      email: existingUser.email,
-      firstName: existingUser.name,
-    };
+ req.session.user = {
+  id: existingUser._id.toString(),
+  email: existingUser.email,
+  firstName: existingUser.firstName,
+};
 
     return res.status(200).json({
       message: "Login successfully done",
       user: req.session.user,
     });
-
   } catch (error) {
     console.error("Login Error:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
-module.exports = loginController;
+function logOut(req, res) {
+  req.session.destroy(function (err) {
+    if (err) {
+      return res.status(400).json({ error: "Something is error" });
+    }
+
+    res.clearCookie("connect.sid");
+
+    return res.status(200).json({
+      message: "Logout successfully done",
+    });
+  });
+}
+
+function dashBoard(req, res) {
+  res.status(200).json({
+    message: "Welcome to dashboard",
+    user: req.session.user,
+  });
+}
+
+module.exports = { loginController, dashBoard, logOut };
