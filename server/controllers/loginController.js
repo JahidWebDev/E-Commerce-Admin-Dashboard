@@ -36,11 +36,11 @@ async function loginController(req, res) {
 
     req.session.isAuth = true;
 
- req.session.user = {
-  id: existingUser._id.toString(),
-  email: existingUser.email,
-  firstName: existingUser.firstName,
-};
+    req.session.user = {
+      id: existingUser._id.toString(),
+      email: existingUser.email,
+      firstName: existingUser.firstName,
+    };
 
     return res.status(200).json({
       message: "Login successfully done",
@@ -55,7 +55,7 @@ async function loginController(req, res) {
 function logOut(req, res) {
   req.session.destroy(function (err) {
     if (err) {
-      return res.status(400).json({ error: "Something is error" });
+      return res.status(400).json({ error: "Something is a error" });
     }
 
     res.clearCookie("connect.sid");
