@@ -40,6 +40,7 @@ async function loginController(req, res) {
       id: existingUser._id.toString(),
       email: existingUser.email,
       firstName: existingUser.firstName,
+      role: existingUser.role
     };
 
     return res.status(200).json({
@@ -55,7 +56,7 @@ async function loginController(req, res) {
 function logOut(req, res) {
   req.session.destroy(function (err) {
     if (err) {
-      return res.status(400).json({ error: "Something is a error" });
+      return res.status(400).json({ error: "Something is error" });
     }
 
     res.clearCookie("connect.sid");
@@ -67,10 +68,18 @@ function logOut(req, res) {
 }
 
 function dashBoard(req, res) {
-  res.status(200).json({
-    message: "Welcome to dashboard",
-    user: req.session.user,
-  });
+  if (!req.session.isAuth) {
+    return res.json({error: "Unauthorized user"})
+  }
+
+  if (req.session.user.role == "admin") {
+    return res.json({message: `Welcome to Admin Dashboard : ${req.session.user.firstName}`})
+  }
+  else{
+    return res.json({message :  `Welcome to User Dashboard : ${req.session.user.firstName}`})
+  }
 }
+
+
 
 module.exports = { loginController, dashBoard, logOut };
