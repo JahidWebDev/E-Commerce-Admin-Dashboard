@@ -23,11 +23,13 @@ const category = new categorySchema({
   });
 }
 
-async function getAllCategoryController(req, res) {
+async function  getAllCategoryController(req, res) {
   try {
     const allCategory = await categorySchema.find({});
 
     res.status(200).json({
+      message: "Get all category",
+      status: "succes",
       categories: allCategory
     });
 
@@ -37,4 +39,25 @@ async function getAllCategoryController(req, res) {
     });
   }
 }
-module.exports = {categoryController, getAllCategoryController };
+
+async function getSingleController(req, res) {
+  try {
+    const { id } = req.params;
+
+    const getSingleCategory = await categorySchema.findById(id);
+
+    res.status(200).json({
+      message: "Get single category",
+      status: "success",
+      category: getSingleCategory
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      error: error.message
+    });
+  }
+}
+
+
+module.exports = {categoryController, getAllCategoryController, getSingleController };
