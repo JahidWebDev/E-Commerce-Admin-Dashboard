@@ -25,11 +25,13 @@ async function categoryController(req, res) {
 
 async function getAllCategoryController(req, res) {
   try {
-    const allCategory = await categorySchema.find({});
+    const allCategory = await categorySchema
+      .find({})
+      .populate("subcategory");
 
     res.status(200).json({
       message: "Get all category",
-      status: "succes",
+      status: "success",
       categories: allCategory,
     });
   } catch (error) {
