@@ -6,7 +6,6 @@ async function createProductController(req, res) {
       name,
       price,
       description,
-      image,
       category,
       subCategory,
       color,
@@ -14,6 +13,10 @@ async function createProductController(req, res) {
       size,
       stores,
     } = req.body;
+
+    const image = req.file
+      ? `http://localhost:3000/api/v1/uploads/${req.file.filename}`
+      : null;
 
     const product = new Product({
       name,
